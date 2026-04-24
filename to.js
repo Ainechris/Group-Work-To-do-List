@@ -1,31 +1,38 @@
-body {
-  font-family: Arial;
-  text-align: center;
-  margin-top: 50px;
-}
+function addTask() {
+  const taskText = document.getElementById("taskInput").value;
+  const time = document.getElementById("timeInput").value;
 
-input, button {
-  padding: 10px;
-  margin: 5px;
-}
+  if (taskText === "") {
+    alert("Enter a task!");
+    return;
+  }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
+  const li = document.createElement("li");
 
-li {
-  background: #f3f3f3;
-  margin: 10px;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  let text = taskText;
+  if (time !== "") {
+    text += " (deletes in " + time + "s)";
+  }
 
-.delete-btn {
-  background: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
+  li.textContent = text;
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.classList.add("delete-btn");
+
+  deleteBtn.onclick = function () {
+    li.remove();
+  };
+
+  li.appendChild(deleteBtn);
+  document.getElementById("taskList").appendChild(li);
+
+  if (time !== "") {
+    setTimeout(() => {
+      li.remove();
+    }, time * 1000);
+  }
+
+  document.getElementById("taskInput").value = "";
+  document.getElementById("timeInput").value = "";
 }
